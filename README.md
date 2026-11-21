@@ -5,7 +5,7 @@ C++/Qt GUI for the **Keysight B1500A Semiconductor Device Analyzer** over **GPIB
 ![C++](https://img.shields.io/badge/C%2B%2B-17-blue) ![Qt](https://img.shields.io/badge/GUI-Qt%206-green) ![license](https://img.shields.io/badge/license-MIT-green) ![interface](https://img.shields.io/badge/interface-GPIB-orange) ![protocols](https://img.shields.io/badge/protocols-42-blueviolet) 
 
 ![Connection tab: VISA discovery, backend identity, sample name and output folder](docs/images/screenshot-main-gui.png)
-<p align="center"><em>Connection tab — VISA discovery, backend identity, and where completed runs are written.</em></p>
+<p align="center"><em>Connection tab - VISA discovery, backend identity, and where completed runs are written.</em></p>
 
 > A Python port of this application lives at
 > [b1500-gui-python](https://github.com/akashnith/b1500-gui-python) -same 42
@@ -48,19 +48,19 @@ C++/Qt GUI for the **Keysight B1500A Semiconductor Device Analyzer** over **GPIB
 | **Ferroelectric** | 11 | PUND, P-V hysteresis, two-frequency leakage separation, antiferroelectric double loops, AFE-PUND, FTJ electroresistance, switching speed, wake-up and fatigue, accumulative switching, plus C-V and Rayleigh sweeps on the MFCMU |
 
 ![P-V hysteresis loop measured in demo mode, with the applied triangular drive beside it](docs/images/screenshot-pv-demo.png)
-<p align="center"><em>Ferroelectric tab — a P-V hysteresis loop in demo
+<p align="center"><em>Ferroelectric tab - a P-V hysteresis loop in demo
 mode. Left: the triangular drive as it will be applied. Right: polarization
 against applied voltage, integrated from the measured current. The run log
 reports 2Pr, Pmax and the coercive voltages; every sample is in the table
-below it.</em></p>
+below it. This is in demo mode but verified the working in hardware mode</em></p>
 
-- **Asymmetric sweeps.** The two limbs of a bipolar I-V are independent magnitudes — a device can SET at +2 V and RESET at −4 V — and each limb is sized from the **step**, not from a point count, so both keep the same resolution
+- **Asymmetric sweeps.** The two limbs of a bipolar I-V are independent magnitudes - a device can SET at +2 V and RESET at −4 V - and each limb is sized from the **step**, not from a point count, so both keep the same resolution
 - **Limits are checked before anything is sent.** A waveform that would exceed the ceiling is refused, not clipped: a clipped waveform is a different measurement that looks like the one you asked for
 - **Compliance hits are counted, not hidden** -a clipped point is not a measurement, and anything averaged across one is wrong
 - SI-aware parameter entry: type `100u`, `1m`, `2.5n` into any compliance, width or timing field
 - Live plotting and per-read-point analysis (conductance versus pulse number, polarization versus field, ON/OFF ratio read off the finished loop)
 - Pattern preview before execution, and CSV export of every measured point
-- **Demo mode** exercises every protocol with no instrument attached — the simulator is a device model, not a stub
+- **Demo mode** exercises every protocol with no instrument attached - the simulator is a device model, not a stub
 - Optional terminal bridge (`tools/b1500ctl.py`) and an in-application assistant pane; both are off by default, the bridge binds to `127.0.0.1` only, and no API key is ever written to disk
 - Safe-state handling: outputs driven to zero and released on error, stop, or exit
 
@@ -68,7 +68,7 @@ below it.</em></p>
 
 ## Requirements
 
-**To build and run against the simulator — any platform**
+**To build and run against the simulator - any platform**
 
 - C++17 compiler (MinGW 13+, MSVC 2022, GCC, or Clang)
 - CMake 3.21+ and Ninja
@@ -76,7 +76,7 @@ below it.</em></p>
 
 Nothing vendor-specific. This is the configuration the CI builds on Linux, Windows and macOS.
 
-**To drive real hardware — additionally, Windows x64**
+**To drive real hardware - additionally, Windows x64**
 
 - **NI-VISA** or **Keysight IO Libraries Suite** (x64)
 - **GPIB interface** (NI GPIB-USB-HS or equivalent) and a cable to the B1500A
@@ -92,7 +92,7 @@ CMake refuses a 32-bit hardware build rather than producing one that cannot load
 git clone https://github.com/akashnith/b1500-gui-cpp.git
 cd b1500-gui-cpp
 
-cmake --preset default            # add — DCMAKE_PREFIX_PATH=<path-to-Qt> if needed
+cmake --preset default            # add - DCMAKE_PREFIX_PATH=<path-to-Qt> if needed
 cmake --build --preset default
 ctest --preset default
 ```
@@ -101,14 +101,14 @@ Run `build/default/b1500a_neuro_gui` (`.exe` on Windows).
 
 | preset | what it is for |
 |---|---|
-| `default` | any platform, simulator only — Release |
+| `default` | any platform, simulator only - Release |
 | `debug` | the same, with symbols |
 | `msvc` | Visual Studio 2022, x64 |
 | `hardware` | Windows x64, adds the VISA backend and links `wgfmu.lib` |
 
 ```bash
 # Windows, with the instrument
-cmake --preset hardware — DCMAKE_PREFIX_PATH="C:/Qt/6.9.3/mingw_64"
+cmake --preset hardware - DCMAKE_PREFIX_PATH="C:/Qt/6.9.3/mingw_64"
 cmake --build --preset hardware
 ```
 
@@ -122,10 +122,10 @@ On Windows, `windeployqt build/default/b1500a_neuro_gui.exe` copies the Qt runti
 
 1. Connect GPIB and power on the B1500A. Confirm the instrument is visible in NI-MAX / Keysight Connection Expert (e.g. `GPIB0::16::INSTR`).
 2. Launch the app. It opens on the **Connection** tab in demo mode, so steps 3–5 work immediately with nothing connected.
-3. Open a family tab — **SMU DC**, **Synapse**, **Neuron** or **Ferroelectric** — pick a protocol from the drop-down, and set amplitudes, pulse widths, compliance and read points. Fields accept SI suffixes: type `100u`, `1m`, `2.5n`.
+3. Open a family tab - **SMU DC**, **Synapse**, **Neuron** or **Ferroelectric** - pick a protocol from the drop-down, and set amplitudes, pulse widths, compliance and read points. Fields accept SI suffixes: type `100u`, `1m`, `2.5n`.
 4. **Validate** checks the waveform against the limits without touching the instrument. **Preview selected protocol** draws the pulse train that would be applied.
 5. **Run demo** executes it. The stimulus and the result plot side by side, every sample lands in the table under them, and **Save CSV** / **Save all** export it. Completed runs are also written automatically under the output folder named on the Connection tab, as `Sample_YYYY-MM-DD / protocol / run timestamp`.
-6. For real hardware: untick **Use simulated demo backend**, enter the GPIB address, press **Connect instrument** — `*IDN?` and the installed modules are listed — then tick **Enable output to the device** on *Instrument / Safety* before running.
+6. For real hardware: untick **Use simulated demo backend**, enter the GPIB address, press **Connect instrument** - `*IDN?` and the installed modules are listed - then tick **Enable output to the device** on *Instrument / Safety* before running.
 
 ### Headless
 
@@ -185,7 +185,7 @@ A return path that is not actually connected reads as a very good insulator rath
 - [ ] SPGU protocol coverage (pulse widths between the SMU and WGFMU ranges)
 - [ ] Batch protocol sequencing across devices
 - [ ] Export of WGFMU patterns to EasyEXPERT format
-- [ ] Reset-before-read in accumulative polarization switching — a PUND read is destructive, so the present implementation measures the first point and then a flat line
+- [ ] Reset-before-read in accumulative polarization switching - a PUND read is destructive, so the present implementation measures the first point and then a flat line
 
 ---
 
