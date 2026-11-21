@@ -92,7 +92,7 @@ CMake refuses a 32-bit hardware build rather than producing one that cannot load
 git clone https://github.com/akashnith/b1500-gui-cpp.git
 cd b1500-gui-cpp
 
-cmake --preset default            # add - DCMAKE_PREFIX_PATH=<path-to-Qt> if needed
+cmake --preset default            # add -DCMAKE_PREFIX_PATH=<path-to-Qt> if needed
 cmake --build --preset default
 ctest --preset default
 ```
@@ -108,7 +108,7 @@ Run `build/default/b1500a_neuro_gui` (`.exe` on Windows).
 
 ```bash
 # Windows, with the instrument
-cmake --preset hardware - DCMAKE_PREFIX_PATH="C:/Qt/6.9.3/mingw_64"
+cmake --preset hardware -DCMAKE_PREFIX_PATH="C:/Qt/6.9.3/mingw_64"
 cmake --build --preset hardware
 ```
 
