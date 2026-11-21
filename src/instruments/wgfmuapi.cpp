@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include <algorithm>
 #include <cmath>
+#include <utility>
 
 namespace {
 QFunctionPointer resolveSymbol(QLibrary &library, const char *plainName,

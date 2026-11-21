@@ -27,6 +27,7 @@
 #include <QUrl>
 #include <algorithm>
 #include <cmath>
+#include <memory>
 
 namespace {
 QString protocolName(const QString &id)

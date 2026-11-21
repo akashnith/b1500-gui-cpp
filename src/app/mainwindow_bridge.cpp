@@ -26,6 +26,7 @@
 #include <QTabWidget>
 #include <QTextDocument>
 
+#include <algorithm>
 #include <cmath>
 
 namespace {

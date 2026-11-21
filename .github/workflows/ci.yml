@@ -35,12 +35,28 @@ jobs:
             libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-sync1 \
             libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1
 
+      # 6.8 LTS, not 6.6. QtCharts pulls in QtOpenGL, and Qt 6.6's QtOpenGL
+      # still declares a link dependency on Apple's AGL framework, which was
+      # removed from recent macOS SDKs -- so 6.6 fails at link with
+      # "ld: framework 'AGL' not found" on a current runner. 6.8 dropped it.
       - name: Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: "6.6.*"
+          version: "6.8.*"
           modules: qtcharts
           cache: true
+
+      # Qt for Windows ships built with MSVC. Without the MSVC environment,
+      # CMake's Ninja generator picks up whatever compiler is on PATH -- the
+      # runner's MinGW gcc -- and the MSVC import libraries then cannot be
+      # linked by it, which surfaces as "undefined reference to `__imp_...`"
+      # for every Qt symbol. This puts cl.exe on PATH so the toolchain
+      # matches the Qt that was installed.
+      - name: MSVC environment (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
 
       - uses: lukka/get-cmake@latest
 

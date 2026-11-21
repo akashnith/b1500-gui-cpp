@@ -16,6 +16,9 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#include <functional>
+#include <utility>
+
 namespace {
 
 //! Biggest request body accepted, so a stuck client cannot grow the buffer.

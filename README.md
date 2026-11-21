@@ -8,7 +8,7 @@ C++/Qt GUI for the **Keysight B1500A Semiconductor Device Analyzer** over **GPIB
 <p align="center"><em>Connection tab - VISA discovery, backend identity, and where completed runs are written.</em></p>
 
 > A Python port of this application lives at
-> [b1500-gui-python](https://github.com/akashnith/b1500-gui-python) -same 42
+> [b1500a-gui-python](https://github.com/akashnith/b1500a-gui-python) — same 42
 > protocols, importable as a library. Cross-checking the two found real bugs
 > in both.
 
@@ -56,7 +56,7 @@ below it. This is in demo mode but verified the working in hardware mode</em></p
 
 - **Asymmetric sweeps.** The two limbs of a bipolar I-V are independent magnitudes - a device can SET at +2 V and RESET at −4 V - and each limb is sized from the **step**, not from a point count, so both keep the same resolution
 - **Limits are checked before anything is sent.** A waveform that would exceed the ceiling is refused, not clipped: a clipped waveform is a different measurement that looks like the one you asked for
-- **Compliance hits are counted, not hidden** -a clipped point is not a measurement, and anything averaged across one is wrong
+- **Compliance hits are counted, not hidden** — a clipped point is not a measurement, and anything averaged across one is wrong
 - SI-aware parameter entry: type `100u`, `1m`, `2.5n` into any compliance, width or timing field
 - Live plotting and per-read-point analysis (conductance versus pulse number, polarization versus field, ON/OFF ratio read off the finished loop)
 - Pattern preview before execution, and CSV export of every measured point
@@ -174,7 +174,7 @@ b1500-gui-cpp/
 
 ## Safety
 
-Verify sample voltage limits and compliance before running. The limits in this software are **a check on what the program is asked to send** -they are not a safety interlock, and they cannot protect a device, an instrument or a person from a wiring mistake.
+Verify sample voltage limits and compliance before running. The limits in this software are **a check on what the program is asked to send** — they are not a safety interlock, and they cannot protect a device, an instrument or a person from a wiring mistake.
 
 A return path that is not actually connected reads as a very good insulator rather than as an error. Set the compliance for the device, not for the measurement you hope to get, confirm pattern amplitudes in the preview, and use the stop control if the response looks wrong.
 

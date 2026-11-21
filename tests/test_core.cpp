@@ -17,6 +17,7 @@
 #include <cmath>
 #include <QSet>
 #include <limits>
+#include <memory>
 #include <stdexcept>
 
 // Hardware output is no longer locked at compile time; it is gated at run time

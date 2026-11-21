@@ -1,6 +1,8 @@
 #include "runworker.h"
 
 #include <exception>
+#include <memory>
+#include <utility>
 
 RunWorker::RunWorker(std::shared_ptr<IB1500> instrument, MeasurementRequest request,
                      QObject *parent)
