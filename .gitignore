@@ -1,0 +1,48 @@
+# ---------------------------------------------------------------- build output
+build/
+build-*/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+*.o
+*.obj
+*.exe
+*.dll
+*.lib
+*.a
+*.pdb
+*.ilk
+
+# -------------------------------------------------------------- never publish
+# Vendor manuals, rig-specific notes and real device presets live here.
+# Keysight's manuals are copyrighted and must not be redistributed; the rest is
+# unpublished laboratory material. Nothing in this folder belongs on GitHub.
+private/
+
+# Captured instrument sessions and saved run bundles. These are measurement
+# data: they belong to whoever took them, not to the repository.
+logs/
+runs/
+*.csv
+!tests/**/*.csv
+
+# ------------------------------------------------------------------ editor/OS
+.vscode/
+.idea/
+*.user
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ------------------------------------------------------------------- secrets
+# The program reads ANTHROPIC_API_KEY from the environment and never writes it
+# to disk, so no key should ever exist in the tree. This is a backstop.
+.env
+.env.*
+*.key
+
+# Saved Claude Code conversations. These carry local paths, an email address
+# and working notes; they are a record of how the code was written, not part
+# of the code.
+chat_export.md
+*.jsonl

@@ -1,0 +1,18 @@
+# Normalise line endings in the repository to LF, and check out whatever is
+# native to the platform. Without this, a Windows-authored tree hands Linux
+# contributors a diff where every line has changed.
+* text=auto
+
+*.cpp   text diff=cpp
+*.h     text diff=cpp
+*.md    text diff=markdown
+*.py    text diff=python
+*.json  text
+*.qrc   text
+*.txt   text
+*.rc.in text
+
+# Binary: never normalise, never diff as text.
+*.png   binary
+*.ico   binary
+*.pdf   binary

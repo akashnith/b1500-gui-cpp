@@ -1,0 +1,57 @@
+{
+  "_comment": [
+    "Illustrative starting points, not measured device data.",
+    "",
+    "A preset only fills the parameter boxes on the measurement pages. It is",
+    "never consulted during validation, so a preset cannot raise a limit or",
+    "talk a protocol past a safety check - editing this file can waste a run,",
+    "but it cannot make an unsafe one.",
+    "",
+    "Replace these with your own stacks. The values below are deliberately",
+    "conservative: low amplitude, microsecond pulses, few cycles. Start there",
+    "on an unknown device and work up."
+  ],
+  "schema_version": 1,
+  "presets": [
+    {
+      "name": "Example: filamentary RRAM",
+      "stack": "metal / transition-metal oxide / metal",
+      "role": "bipolar resistive switching, non-volatile synapse",
+      "pulse_voltage_v": 0.8,
+      "read_voltage_v": 0.1,
+      "pulse_width_s": 1.0e-6,
+      "pulses": 20,
+      "cycles": 1
+    },
+    {
+      "name": "Example: threshold switch",
+      "stack": "metal / volatile switching layer / metal",
+      "role": "volatile threshold switching, neuron and selector",
+      "pulse_voltage_v": 0.8,
+      "read_voltage_v": 0.1,
+      "pulse_width_s": 1.0e-6,
+      "pulses": 20,
+      "cycles": 1
+    },
+    {
+      "name": "Example: ferroelectric capacitor",
+      "stack": "oxide electrode / ferroelectric film / oxide electrode",
+      "role": "PUND, P-E hysteresis, ferroelectric synapse",
+      "pulse_voltage_v": 0.8,
+      "read_voltage_v": 0.1,
+      "pulse_width_s": 1.0e-6,
+      "pulses": 20,
+      "cycles": 1
+    },
+    {
+      "name": "Example: antiferroelectric capacitor",
+      "stack": "oxide electrode / antiferroelectric film / oxide electrode",
+      "role": "double hysteresis loop, AFE-PUND, energy storage",
+      "pulse_voltage_v": 0.8,
+      "read_voltage_v": 0.1,
+      "pulse_width_s": 1.0e-6,
+      "pulses": 20,
+      "cycles": 1
+    }
+  ]
+}

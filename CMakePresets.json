@@ -1,0 +1,80 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "default",
+      "inherits": "base",
+      "displayName": "Default (any platform, simulator only)",
+      "description": "Builds the application and its tests against the simulated instrument. Qt is found through CMAKE_PREFIX_PATH or Qt6_DIR; no VISA, no Keysight DLL, no instrument needed.",
+      "generator": "Ninja"
+    },
+    {
+      "name": "debug",
+      "inherits": "default",
+      "displayName": "Debug",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "hardware",
+      "inherits": "base",
+      "displayName": "Windows + hardware (VISA and WGFMU)",
+      "description": "Adds the native VISA backend and links Keysight's WGFMU import library. Windows x64 only: the DLL exists nowhere else. Override B1500A_WGFMU_LIBRARY if it is not in the default install location.",
+      "generator": "Ninja",
+      "cacheVariables": { "B1500A_ENABLE_VISA": "ON" },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "msvc",
+      "inherits": "base",
+      "displayName": "Windows / Visual Studio 2022",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "default", "configurePreset": "default" },
+    { "name": "debug", "configurePreset": "debug" },
+    { "name": "hardware", "configurePreset": "hardware" },
+    { "name": "msvc", "configurePreset": "msvc", "configuration": "Release" }
+  ],
+  "testPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default",
+      "output": { "outputOnFailure": true },
+      "environment": { "QT_QPA_PLATFORM": "offscreen" }
+    },
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "output": { "outputOnFailure": true },
+      "environment": { "QT_QPA_PLATFORM": "offscreen" }
+    },
+    {
+      "name": "msvc",
+      "configurePreset": "msvc",
+      "configuration": "Release",
+      "output": { "outputOnFailure": true },
+      "environment": { "QT_QPA_PLATFORM": "offscreen" }
+    }
+  ]
+}

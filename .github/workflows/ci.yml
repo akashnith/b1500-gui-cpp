@@ -1,0 +1,62 @@
+name: CI
+
+# Builds and tests against the simulated instrument, which is the point of
+# having one: a pull request is checked the same way a bench is, minus the
+# device. No VISA, no Keysight libraries, nothing vendor-specific.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Both tests run real executables, and one of them is the GUI. Qt needs
+      # these present even under the offscreen platform plugin, and a runner
+      # image does not ship them.
+      - name: Qt runtime libraries (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1 libegl1 libxkbcommon-x11-0 \
+            libdbus-1-3 libfontconfig1 libfreetype6 \
+            libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
+            libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-sync1 \
+            libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1
+
+      - name: Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.6.*"
+          modules: qtcharts
+          cache: true
+
+      - uses: lukka/get-cmake@latest
+
+      # QT_ROOT_DIR is exported by the Qt step. Passing it explicitly rather
+      # than trusting the environment means a Qt that moved, or an action
+      # that changed which variables it sets, fails here with a clear message
+      # instead of finding some other Qt further down the search path.
+      - name: Configure
+        run: cmake --preset default -DCMAKE_PREFIX_PATH="${{ env.QT_ROOT_DIR }}"
+
+      - name: Build
+        run: cmake --build --preset default
+
+      # The test preset sets QT_QPA_PLATFORM itself; it is repeated here so a
+      # manual `ctest` in this job behaves the same way.
+      - name: Test
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --preset default

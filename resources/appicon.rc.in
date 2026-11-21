@@ -1,0 +1,39 @@
+/* The executable's own icon and version block, for Explorer, the taskbar and
+ * Alt-Tab. Qt's setWindowIcon covers the window; this covers the file.
+ *
+ * Deliberately free of #include <windows.h> and of any include path. MinGW's
+ * windres hands its -I flags to the C preprocessor unquoted, so a project
+ * directory containing a space - "VS Code" here - breaks the build. Numeric
+ * resource ids need no headers, and the icon path is absolute so nothing has
+ * to be searched for.
+ *
+ * Generated from appicon.rc.in by CMake; edit that, not the copy in the
+ * build directory.
+ */
+
+1 ICON "@B1500A_ICON_FILE@"
+
+1 VERSIONINFO
+FILEVERSION     0,2,0,0
+PRODUCTVERSION  0,2,0,0
+FILEOS          0x00040004L
+FILETYPE        0x00000001L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName",      "B1500A"
+            VALUE "FileDescription",  "Control B1500A"
+            VALUE "FileVersion",      "0.2.0.0"
+            VALUE "InternalName",     "Control B1500A"
+            VALUE "OriginalFilename", "b1500a_neuro_gui.exe"
+            VALUE "ProductName",      "Control B1500A"
+            VALUE "ProductVersion",   "0.2.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
