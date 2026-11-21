@@ -2,7 +2,7 @@
 
 C++/Qt GUI for the **Keysight B1500A Semiconductor Device Analyzer** over **GPIB**, covering the DC, capacitance and fast-pulse measurements used to characterize memristive, ferroelectric and other neuromorphic devices (synaptic plasticity, neuron-like spiking, forming, retention, polarization switching).
 
-![C++](https://img.shields.io/badge/C%2B%2B-17-blue) ![Qt](https://img.shields.io/badge/GUI-Qt%206-green) ![license](https://img.shields.io/badge/license-MIT-green) ![interface](https://img.shields.io/badge/interface-GPIB-orange) ![protocols](https://img.shields.io/badge/protocols-42-blueviolet) ![demo](https://img.shields.io/badge/demo%20mode-no%20instrument%20needed-informational)
+![C++](https://img.shields.io/badge/C%2B%2B-17-blue) ![Qt](https://img.shields.io/badge/GUI-Qt%206-green) ![license](https://img.shields.io/badge/license-MIT-green) ![interface](https://img.shields.io/badge/interface-GPIB-orange) ![protocols](https://img.shields.io/badge/protocols-42-blueviolet) 
 
 ![Connection tab: VISA discovery, backend identity, sample name and output folder](docs/images/screenshot-main-gui.png)
 <p align="center"><em>Connection tab — VISA discovery, backend identity, and where completed runs are written.</em></p>
