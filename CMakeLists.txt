@@ -26,6 +26,11 @@ target_include_directories(b1500a_core PUBLIC src)
 target_link_libraries(b1500a_core PUBLIC Qt6::Core)
 if(WIN32)
     target_link_libraries(b1500a_core PRIVATE Version)
+    # b1500visa.cpp includes <windows.h> for the file-version query, and
+    # windows.h defines min and max as macros. std::min(a, b) then expands
+    # to std::((a) < (b) ? ...), which MSVC rejects as
+    # "C2589: '(' illegal token on right side of '::'".
+    target_compile_definitions(b1500a_core PRIVATE NOMINMAX)
 endif()
 
 # The executable's own icon and version block, for Explorer and the taskbar.

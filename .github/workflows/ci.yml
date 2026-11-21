@@ -35,23 +35,32 @@ jobs:
             libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-sync1 \
             libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1
 
-      # 6.8 LTS, not 6.6. QtCharts pulls in QtOpenGL, and Qt 6.6's QtOpenGL
-      # still declares a link dependency on Apple's AGL framework, which was
-      # removed from recent macOS SDKs -- so 6.6 fails at link with
-      # "ld: framework 'AGL' not found" on a current runner. 6.8 dropped it.
-      - name: Qt
+      # Linux and Windows take Qt from the official archives.
+      - name: Qt (Linux, Windows)
+        if: runner.os != 'macOS'
         uses: jurplel/install-qt-action@v4
         with:
           version: "6.8.*"
           modules: qtcharts
           cache: true
 
+      # macOS does not, and this is deliberate. The prebuilt macOS archives
+      # -- 6.6 and 6.8 alike -- still declare a link dependency on Apple's
+      # AGL framework from QtGui. AGL was removed from recent macOS SDKs, so
+      # every link fails with "ld: framework 'AGL' not found", including the
+      # test binary that never touches OpenGL. Homebrew builds Qt against
+      # the SDK actually on the runner, so the reference is not there.
+      - name: Qt (macOS, from Homebrew)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install qt
+          echo "QT_ROOT_DIR=$(brew --prefix qt)" >> "$GITHUB_ENV"
+
       # Qt for Windows ships built with MSVC. Without the MSVC environment,
-      # CMake's Ninja generator picks up whatever compiler is on PATH -- the
-      # runner's MinGW gcc -- and the MSVC import libraries then cannot be
-      # linked by it, which surfaces as "undefined reference to `__imp_...`"
-      # for every Qt symbol. This puts cl.exe on PATH so the toolchain
-      # matches the Qt that was installed.
+      # CMake's Ninja generator picks up the runner's MinGW gcc, and the MSVC
+      # import libraries cannot be linked by it -- which surfaced as
+      # "undefined reference to `__imp_...`" for every Qt symbol.
       - name: MSVC environment (Windows)
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
@@ -60,10 +69,10 @@ jobs:
 
       - uses: lukka/get-cmake@latest
 
-      # QT_ROOT_DIR is exported by the Qt step. Passing it explicitly rather
-      # than trusting the environment means a Qt that moved, or an action
-      # that changed which variables it sets, fails here with a clear message
-      # instead of finding some other Qt further down the search path.
+      # QT_ROOT_DIR is set by whichever Qt step ran. Passing it explicitly
+      # rather than trusting the environment means a Qt that moved fails
+      # here with a clear message instead of finding some other Qt further
+      # down the search path.
       - name: Configure
         run: cmake --preset default -DCMAKE_PREFIX_PATH="${{ env.QT_ROOT_DIR }}"
 
